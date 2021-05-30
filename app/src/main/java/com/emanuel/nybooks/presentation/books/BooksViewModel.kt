@@ -2,6 +2,7 @@ package com.emanuel.nybooks.presentation.books
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.emanuel.nybooks.R
 import com.emanuel.nybooks.data.ApiService
 import com.emanuel.nybooks.data.model.Book
 import com.emanuel.nybooks.data.response.BookBodyResponse
@@ -12,6 +13,7 @@ import retrofit2.Response
 class BooksViewModel : ViewModel() {
 
     val booksLiveData: MutableLiveData<List<Book>> = MutableLiveData()
+    val viewFlipperLiveData: MutableLiveData<Pair<Int, Int?>> = MutableLiveData()
 
     fun getBooks() {
        // booksLiveData.value = createFakeBooks()
@@ -33,13 +35,24 @@ class BooksViewModel : ViewModel() {
                     }
 
                     booksLiveData.value = books
+                    viewFlipperLiveData.value = Pair(VIEW_FLIPPER_BOOKS, null)
+
+                } else if (response.code() == 401) {
+                    viewFlipperLiveData.value = Pair(VIEW_FLIPPER_ERROR, R.string.book_error_401)
+                } else {
+                    viewFlipperLiveData.value = Pair(VIEW_FLIPPER_ERROR, R.string.book_error_400_generic)
                 }
             }
 
             override fun onFailure(call: Call<BookBodyResponse>, t: Throwable) {
-                TODO("Not yet implemented")
+                viewFlipperLiveData.value = Pair(VIEW_FLIPPER_ERROR, R.string.book_error_500_generic)
             }
 
         })
+    }
+
+    companion object {
+        private const val VIEW_FLIPPER_BOOKS = 1
+        private const val VIEW_FLIPPER_ERROR = 2
     }
 }
