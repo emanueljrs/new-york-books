@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Ny Books</string>
     <string name="book_title">Books</string>
+    <string name="book_title_label">Title</string>
+    <string name="book_descrption_label">Description</string>
 </resources>
