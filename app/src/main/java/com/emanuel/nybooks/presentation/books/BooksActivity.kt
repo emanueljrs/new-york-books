@@ -2,20 +2,20 @@ package com.emanuel.nybooks.presentation.books
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.emanuel.nybooks.R
+import com.emanuel.nybooks.presentation.base.BaseActivity
 import com.emanuel.nybooks.presentation.details.BooksDetailsActivity
 import kotlinx.android.synthetic.main.activity_books.*
+import kotlinx.android.synthetic.main.include_toolbar.*
 
-class BooksActivity : AppCompatActivity() {
+class BooksActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_books)
 
-        toolbarMain.title = getString(R.string.book_title)
-        setSupportActionBar(toolbarMain)
+        setupToolBar(toolbarMain, R.string.book_title)
 
         val viewModel: BooksViewModel by viewModels() //Factory de ViewModel
         //Activity está observando qualquer alteração no booksLiveData
