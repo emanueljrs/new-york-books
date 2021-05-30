@@ -19,28 +19,27 @@ class BooksViewModel : ViewModel() {
        // booksLiveData.value = createFakeBooks()
         ApiService.service.getBooks().enqueue(object: Callback<BookBodyResponse> {
             override fun onResponse(call: Call<BookBodyResponse>, response: Response<BookBodyResponse>) {
-                if (response.isSuccessful) {
-                    val books: MutableList<Book> = mutableListOf()
+                when {
+                    response.isSuccessful -> {
+                        val books: MutableList<Book> = mutableListOf()
 
-                    response.body()?.let { bookBodyResponse ->
-                        for (result in bookBodyResponse.bookResults) {
-                            val book = Book(
-                                title = result.booksDetails[0].title,
-                                author = result.booksDetails[0].author,
-                                description = result.booksDetails[0].description
-                            )
-
-                            books.add(book)
+                        response.body()?.let { bookBodyResponse ->
+                            for (result in bookBodyResponse.bookResults) {
+                                val book = result.booksDetails[0].getBooksModel()
+                                books.add(book)
+                            }
                         }
+
+                        booksLiveData.value = books
+                        viewFlipperLiveData.value = Pair(VIEW_FLIPPER_BOOKS, null)
+
                     }
-
-                    booksLiveData.value = books
-                    viewFlipperLiveData.value = Pair(VIEW_FLIPPER_BOOKS, null)
-
-                } else if (response.code() == 401) {
-                    viewFlipperLiveData.value = Pair(VIEW_FLIPPER_ERROR, R.string.book_error_401)
-                } else {
-                    viewFlipperLiveData.value = Pair(VIEW_FLIPPER_ERROR, R.string.book_error_400_generic)
+                    response.code() == 401 -> {
+                        viewFlipperLiveData.value = Pair(VIEW_FLIPPER_ERROR, R.string.book_error_401)
+                    }
+                    else -> {
+                        viewFlipperLiveData.value = Pair(VIEW_FLIPPER_ERROR, R.string.book_error_400_generic)
+                    }
                 }
             }
 
