@@ -32,7 +32,6 @@ class BooksViewModel : ViewModel() {
 
                         booksLiveData.value = books
                         viewFlipperLiveData.value = Pair(VIEW_FLIPPER_BOOKS, null)
-
                     }
                     response.code() == 401 -> {
                         viewFlipperLiveData.value = Pair(VIEW_FLIPPER_ERROR, R.string.book_error_401)

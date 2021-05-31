@@ -3,6 +3,7 @@ package com.emanuel.nybooks.presentation.books
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.emanuel.nybooks.R
 import com.emanuel.nybooks.data.model.Book
@@ -25,8 +26,8 @@ class BooksAdapter(
     override fun getItemCount(): Int = books.size
 
     class BooksViewHolder(itemView: View, val onItemClickListener: ((book: Book) -> Unit)) : RecyclerView.ViewHolder(itemView) {
-        val title = itemView.textTitle
-        val author = itemView.textAuthor
+        private val title: TextView = itemView.textTitle
+        private val author: TextView = itemView.textAuthor
 
         fun bind(book: Book) {
             title.text = book.title
