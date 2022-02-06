@@ -19,7 +19,7 @@ class BooksActivity : BaseActivity() {
         setupToolBar(toolbarMain, R.string.book_title)
 
         //val viewModel: BooksViewModel = BooksViewModel.ViewModelFactory(BooksApiDataSource()).create(BooksViewModel::class.java)
-        val viewModel: BooksViewModel by viewModels{ 
+        val viewModel: BooksViewModel by viewModels{
             BooksViewModel.ViewModelFactory(BooksApiDataSource())
         } //Factory de ViewModel
 
